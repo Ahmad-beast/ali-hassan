@@ -4,7 +4,7 @@ import { subscribeToTransactions, deleteTransaction } from '../../services/trans
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { format } from 'date-fns';
-import { Trash2, Download, Filter, Search, Plus, ArrowRight, Calendar, Edit } from 'lucide-react';
+import { Trash2, Download, Filter, Search, Plus, ArrowRight, Calendar, CreditCard as Edit } from 'lucide-react';
 import { exportToPDF, exportToExcel } from '../../services/exportService';
 import { Link } from 'react-router-dom';
 

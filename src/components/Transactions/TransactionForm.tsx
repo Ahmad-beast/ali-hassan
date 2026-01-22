@@ -5,7 +5,7 @@ import { addTransaction, updateTransaction, getReceivers, getTransactionById } f
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { Receiver } from '../../types';
-import { Save, ArrowLeft, Plus, Edit } from 'lucide-react';
+import { Save, ArrowLeft, Plus, CreditCard as Edit } from 'lucide-react';
 
 interface TransactionFormData {
   from: string;
