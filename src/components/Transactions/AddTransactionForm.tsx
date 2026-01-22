@@ -83,7 +83,6 @@ const AddTransactionForm: React.FC = () => {
     setLoading(false);
   };
 
-  const senderOptions = ['Brother 1', 'Brother 2', 'Brother 3', 'Brother 4'];
   const senderOptions = ['Muhammad Raiz', 'Qaisar Shahzad', 'Muhammad Rizwan', 'Muhammad Nawaz'];
 
   return (
