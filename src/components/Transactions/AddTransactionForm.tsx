@@ -149,6 +149,10 @@ const AddTransactionForm: React.FC = () => {
                 >
                   <option value="">Select receiver</option>
                   <option value="Ali Hussan">Ali Hussan</option>
+                  <option value="Muhammad Raiz">Muhammad Raiz</option>
+                  <option value="Qaisar Shahzad">Qaisar Shahzad</option>
+                  <option value="Muhammad Rizwan">Muhammad Rizwan</option>
+                  <option value="Muhammad Nawaz">Muhammad Nawaz</option>
                   {receivers.map((receiver) => (
                     receiver.name !== 'Ali Hussan' && (
                       <option key={receiver.id} value={receiver.name}>
