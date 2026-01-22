@@ -112,7 +112,7 @@ const TransactionsList: React.FC = () => {
     .reduce((sum, t) => sum + t.amount, 0);
 
   // Calculate brother totals
-  const brothers = ['Brother 1', 'Brother 2', 'Brother 3', 'Brother 4'];
+  const brothers = ['Muhammad Raiz', 'Qaisar Shahzad', 'Muhammad Rizwan', 'Muhammad Nawaz'];
   
   const calculateBrotherTotals = (brotherName: string) => {
     const received = {
