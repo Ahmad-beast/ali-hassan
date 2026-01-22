@@ -151,336 +151,434 @@ const TransactionsList: React.FC = () => {
   }
 
   return (
-    <div className="p-4 bg-gray-50 min-h-screen safe-area-bottom">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-        <div className="mb-3 sm:mb-0">
-          <h1 className="text-xl font-bold text-gray-900">{t('transactions.title')}</h1>
-          <p className="text-sm text-gray-600">{t('transactions.subtitle')}</p>
+    <div className="p-3 sm:p-4 lg:p-6 bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-4 sm:mb-6">
+          <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">{t('transactions.title')}</h1>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">{t('transactions.subtitle')}</p>
+            </div>
+            
+            {/* New Transaction Button - Mobile First */}
+            {isAdmin && (
+              <div className="w-full sm:w-auto">
+                <Link
+                  to="/add-transaction"
+                  className="w-full sm:w-auto flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {t('transactions.newTransaction')}
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex flex-col gap-3">
-          {isAdmin && (
-            <Link
-              to="/add-transaction"
-              className="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              {t('transactions.newTransaction')}
-            </Link>
-          )}
-          <div className="flex gap-2 justify-between">
+
+        {/* Action Buttons Row */}
+        <div className="mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row gap-3">
+            {/* Filter Button */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center px-4 py-3 border rounded-lg text-sm font-medium flex-1 justify-center ${
-                showFilters ? 'bg-blue-50 border-blue-300 text-blue-700' : 'border-gray-300 hover:bg-gray-50'
+              className={`flex items-center justify-center px-4 py-3 border rounded-lg text-sm font-medium transition-colors ${
+                showFilters 
+                  ? 'bg-blue-50 border-blue-300 text-blue-700' 
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
               }`}
             >
-              <Filter className="w-4 h-4 mr-1" />
+              <Filter className="w-4 h-4 mr-2" />
               {t('transactions.filters')}
             </button>
-            <div className="flex gap-2">
+            
+            {/* Export Buttons */}
+            <div className="flex gap-2 sm:gap-3">
               <button
                 onClick={handleExportPDF}
-                className="px-3 py-3 text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-300"
+                className="flex-1 sm:flex-none flex items-center justify-center px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors"
                 title="Export PDF"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 mr-2" />
+                <span className="sm:hidden">PDF</span>
+                <span className="hidden sm:inline">{t('common.pdf')}</span>
               </button>
               <button
                 onClick={handleExportExcel}
-                className="px-3 py-3 text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-300"
+                className="flex-1 sm:flex-none flex items-center justify-center px-4 py-3 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors"
                 title="Export Excel"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 mr-2" />
+                <span className="sm:hidden">Excel</span>
+                <span className="hidden sm:inline">{t('common.excel')}</span>
               </button>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-2 gap-3 mb-6">
-        <div className="bg-blue-500 p-4 rounded-lg text-white">
-          <h3 className="text-sm opacity-90">{t('transactions.totalPkr')}</h3>
-          <p className="text-xl font-bold">{pkrTotal.toLocaleString()}</p>
+        {/* Summary Cards - Mobile Responsive */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4 sm:p-6 rounded-xl text-white shadow-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm sm:text-base opacity-90 font-medium">{t('transactions.totalPkr')}</p>
+                <p className="text-2xl sm:text-3xl font-bold mt-1">{pkrTotal.toLocaleString()}</p>
+              </div>
+              <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                <span className="text-xl font-bold">₨</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-green-500 to-green-600 p-4 sm:p-6 rounded-xl text-white shadow-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm sm:text-base opacity-90 font-medium">{t('transactions.totalKwd')}</p>
+                <p className="text-2xl sm:text-3xl font-bold mt-1">{kwdTotal.toLocaleString()}</p>
+              </div>
+              <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                <span className="text-xl font-bold">د.ك</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="bg-green-500 p-4 rounded-lg text-white">
-          <h3 className="text-sm opacity-90">{t('transactions.totalKwd')}</h3>
-          <p className="text-xl font-bold">{kwdTotal.toLocaleString()}</p>
-        </div>
-      </div>
 
-      {/* Filters */}
-      {showFilters && (
-        <div className="bg-white p-4 rounded-lg mb-6 border">
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('transactions.search')}
-              </label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+        {/* Filters Section */}
+        {showFilters && (
+          <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-6 mb-4 sm:mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Search */}
+              <div className="sm:col-span-2 lg:col-span-3">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('transactions.search')}
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <input
+                    type="text"
+                    placeholder={t('transactions.search')}
+                    value={filters.search}
+                    onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Date From */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('transactions.dateFrom')}
+                </label>
                 <input
-                  type="text"
-                  placeholder={t('transactions.search')}
-                  value={filters.search}
-                  onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                  className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  type="date"
+                  value={filters.dateFrom}
+                  onChange={(e) => setFilters({ ...filters, dateFrom: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
+
+              {/* Date To */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('transactions.dateTo')}
+                </label>
+                <input
+                  type="date"
+                  value={filters.dateTo}
+                  onChange={(e) => setFilters({ ...filters, dateTo: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Sender */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('transactions.sender')}
+                </label>
+                <select
+                  value={filters.sender}
+                  onChange={(e) => setFilters({ ...filters, sender: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">{t('transactions.allSenders')}</option>
+                  {uniqueSenders.map((sender) => (
+                    <option key={sender} value={sender}>
+                      {sender}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Receiver */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('transactions.receiver')}
+                </label>
+                <select
+                  value={filters.receiver}
+                  onChange={(e) => setFilters({ ...filters, receiver: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">{t('transactions.allReceivers')}</option>
+                  {uniqueReceivers.map((receiver) => (
+                    <option key={receiver} value={receiver}>
+                      {receiver}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Currency */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('transactions.currency')}
+                </label>
+                <select
+                  value={filters.currency}
+                  onChange={(e) => setFilters({ ...filters, currency: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">{t('transactions.allCurrencies')}</option>
+                  <option value="PKR">PKR</option>
+                  <option value="KWD">KWD</option>
+                </select>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('transactions.dateFrom')}
-              </label>
-              <input
-                type="date"
-                value={filters.dateFrom}
-                onChange={(e) => setFilters({ ...filters, dateFrom: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('transactions.dateTo')}
-              </label>
-              <input
-                type="date"
-                value={filters.dateTo}
-                onChange={(e) => setFilters({ ...filters, dateTo: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('transactions.sender')}
-              </label>
-              <select
-                value={filters.sender}
-                onChange={(e) => setFilters({ ...filters, sender: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            {/* Clear Filters Button */}
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setFilters({
+                  search: '',
+                  dateFrom: '',
+                  dateTo: '',
+                  sender: '',
+                  receiver: '',
+                  currency: '',
+                })}
+                className="px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <option value="">{t('transactions.allSenders')}</option>
-                {uniqueSenders.map((sender) => (
-                  <option key={sender} value={sender}>
-                    {sender}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('transactions.receiver')}
-              </label>
-              <select
-                value={filters.receiver}
-                onChange={(e) => setFilters({ ...filters, receiver: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="">{t('transactions.allReceivers')}</option>
-                {uniqueReceivers.map((receiver) => (
-                  <option key={receiver} value={receiver}>
-                    {receiver}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('transactions.currency')}
-              </label>
-              <select
-                value={filters.currency}
-                onChange={(e) => setFilters({ ...filters, currency: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="">{t('transactions.allCurrencies')}</option>
-                <option value="PKR">PKR</option>
-                <option value="KWD">KWD</option>
-              </select>
+                {t('transactions.clearFilters')}
+              </button>
             </div>
           </div>
+        )}
 
-          <div className="flex justify-end mt-4">
-            <button
-              onClick={() => setFilters({
-                search: '',
-                dateFrom: '',
-                dateTo: '',
-                sender: '',
-                receiver: '',
-                currency: '',
-              })}
-              className="px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg"
-            >
-              {t('transactions.clearFilters')}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Brother Summary Cards */}
-      <div className="grid grid-cols-1 gap-4 mb-6">
-        {brothers.map((brother) => {
-          const totals = calculateBrotherTotals(brother);
-          return (
-            <div key={brother} className="bg-white p-4 rounded-lg shadow-sm border">
-              <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
-                  <span className="text-blue-600 font-bold text-sm">
-                    {brother.split(' ')[0].charAt(0)}{brother.split(' ')[1] ? brother.split(' ')[1].charAt(0) : ''}
-                  </span>
-                </div>
-                {brother}
-              </h3>
-              
-              <div className="space-y-3">
-                {/* Received */}
-                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-                  <div className="flex items-center">
-                    <ArrowRight className="w-4 h-4 text-green-600 mr-2 rotate-180" />
-                    <span className="text-sm font-medium text-green-700">Received</span>
+        {/* Brother Summary Cards - Mobile Responsive */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+          {brothers.map((brother) => {
+            const totals = calculateBrotherTotals(brother);
+            return (
+              <div key={brother} className="bg-white rounded-xl shadow-sm border p-4 sm:p-6">
+                <div className="flex items-center mb-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center mr-3">
+                    <span className="text-white font-bold text-sm sm:text-base">
+                      {brother.split(' ')[0].charAt(0)}{brother.split(' ')[1] ? brother.split(' ')[1].charAt(0) : ''}
+                    </span>
                   </div>
-                  <div className="text-right">
-                    {totals.received.PKR > 0 && (
-                      <div className="text-sm font-semibold text-green-800">
-                        {totals.received.PKR.toLocaleString()} PKR
-                      </div>
-                    )}
-                    {totals.received.KWD > 0 && (
-                      <div className="text-sm font-semibold text-green-800">
-                        {totals.received.KWD.toLocaleString()} KWD
-                      </div>
-                    )}
-                    {totals.received.PKR === 0 && totals.received.KWD === 0 && (
-                      <div className="text-sm text-gray-500">0</div>
-                    )}
-                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-800">{brother}</h3>
                 </div>
                 
-                {/* Sent */}
-                <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
-                  <div className="flex items-center">
-                    <ArrowRight className="w-4 h-4 text-red-600 mr-2" />
-                    <span className="text-sm font-medium text-red-700">Sent</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Received */}
+                  <div className="bg-green-50 p-3 sm:p-4 rounded-lg border border-green-200">
+                    <div className="flex items-center mb-2">
+                      <ArrowRight className="w-4 h-4 text-green-600 mr-2 rotate-180" />
+                      <span className="text-sm font-medium text-green-700">Received</span>
+                    </div>
+                    <div className="space-y-1">
+                      {totals.received.PKR > 0 && (
+                        <div className="text-sm font-semibold text-green-800">
+                          {totals.received.PKR.toLocaleString()} PKR
+                        </div>
+                      )}
+                      {totals.received.KWD > 0 && (
+                        <div className="text-sm font-semibold text-green-800">
+                          {totals.received.KWD.toLocaleString()} KWD
+                        </div>
+                      )}
+                      {totals.received.PKR === 0 && totals.received.KWD === 0 && (
+                        <div className="text-sm text-gray-500">0</div>
+                      )}
+                    </div>
                   </div>
-                  <div className="text-right">
-                    {totals.sent.PKR > 0 && (
-                      <div className="text-sm font-semibold text-red-800">
-                        {totals.sent.PKR.toLocaleString()} PKR
-                      </div>
-                    )}
-                    {totals.sent.KWD > 0 && (
-                      <div className="text-sm font-semibold text-red-800">
-                        {totals.sent.KWD.toLocaleString()} KWD
-                      </div>
-                    )}
-                    {totals.sent.PKR === 0 && totals.sent.KWD === 0 && (
-                      <div className="text-sm text-gray-500">0</div>
-                    )}
+                  
+                  {/* Sent */}
+                  <div className="bg-red-50 p-3 sm:p-4 rounded-lg border border-red-200">
+                    <div className="flex items-center mb-2">
+                      <ArrowRight className="w-4 h-4 text-red-600 mr-2" />
+                      <span className="text-sm font-medium text-red-700">Sent</span>
+                    </div>
+                    <div className="space-y-1">
+                      {totals.sent.PKR > 0 && (
+                        <div className="text-sm font-semibold text-red-800">
+                          {totals.sent.PKR.toLocaleString()} PKR
+                        </div>
+                      )}
+                      {totals.sent.KWD > 0 && (
+                        <div className="text-sm font-semibold text-red-800">
+                          {totals.sent.KWD.toLocaleString()} KWD
+                        </div>
+                      )}
+                      {totals.sent.PKR === 0 && totals.sent.KWD === 0 && (
+                        <div className="text-sm text-gray-500">0</div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
 
-      {/* Transactions */}
-      <div className="bg-white rounded-lg border overflow-hidden">
-        {filteredTransactions.length === 0 ? (
-          <div className="text-center py-12 px-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('transactions.noTransactions')}</h3>
-            <p className="text-sm text-gray-500 mb-4">{t('transactions.getStarted')}</p>
-            {isAdmin && (
-              <Link
-                to="/add-transaction"
-                className="inline-flex items-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                {t('transactions.createFirst')}
-              </Link>
-            )}
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    {t('transactions.date')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    {t('transactions.transaction')}
-                  </th>
-                  <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    {t('transactions.purpose')}
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                    {t('transactions.amount')}
-                  </th>
-                  {isAdmin && (
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      {t('transactions.actions')}
-                    </th>
-                  )}
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+        {/* Transactions Table/List */}
+        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+          {filteredTransactions.length === 0 ? (
+            <div className="text-center py-12 px-4">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Calendar className="w-8 h-8 text-gray-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('transactions.noTransactions')}</h3>
+              <p className="text-sm text-gray-500 mb-6">{t('transactions.getStarted')}</p>
+              {isAdmin && (
+                <Link
+                  to="/add-transaction"
+                  className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {t('transactions.createFirst')}
+                </Link>
+              )}
+            </div>
+          ) : (
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden lg:block overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t('transactions.date')}
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t('transactions.transaction')}
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t('transactions.purpose')}
+                      </th>
+                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t('transactions.amount')}
+                      </th>
+                      {isAdmin && (
+                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          {t('transactions.actions')}
+                        </th>
+                      )}
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {filteredTransactions.map((transaction) => (
+                      <tr key={transaction.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {format(transaction.date, 'MMM dd, yyyy')}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center text-sm">
+                            <span className="font-medium text-gray-900 truncate max-w-32">{transaction.from}</span>
+                            <ArrowRight className="w-4 h-4 mx-3 text-gray-400 flex-shrink-0" />
+                            <span className="text-gray-900 truncate max-w-32">{transaction.to}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600 max-w-xs">
+                          <div className="truncate">
+                            {transaction.purpose || <span className="text-gray-400 italic">{t('transactions.noPurpose')}</span>}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                            transaction.currency === 'PKR' 
+                              ? 'bg-blue-100 text-blue-800' 
+                              : 'bg-green-100 text-green-800'
+                          }`}>
+                            {transaction.amount.toLocaleString()} {transaction.currency}
+                          </span>
+                        </td>
+                        {isAdmin && (
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center space-x-2">
+                              <Link
+                                to={`/edit-transaction/${transaction.id}`}
+                                className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded-lg transition-colors"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Link>
+                              <button
+                                onClick={() => transaction.id && handleDelete(transaction.id)}
+                                className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded-lg transition-colors"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="lg:hidden divide-y divide-gray-200">
                 {filteredTransactions.map((transaction) => (
-                  <tr key={transaction.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {format(transaction.date, 'MMM dd, yyyy')}
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="flex items-center text-sm">
-                        <span className="font-medium text-gray-900 truncate max-w-20">{transaction.from}</span>
-                        <ArrowRight className="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" />
-                        <span className="text-gray-900 truncate max-w-20">{transaction.to}</span>
-                      </div>
-                    </td>
-                    <td className="hidden md:table-cell px-4 py-4 text-sm text-gray-600 max-w-xs">
-                      <div className="truncate">
-                        {transaction.purpose || <span className="text-gray-400 italic">{t('transactions.noPurpose')}</span>}
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium ${
-                        transaction.currency === 'PKR' 
-                          ? 'bg-blue-100 text-blue-800' 
-                          : 'bg-green-100 text-green-800'
-                      }`}>
-                        {transaction.amount.toLocaleString()} {transaction.currency}
-                      </span>
-                    </td>
-                    {isAdmin && (
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="flex items-center space-x-1">
-                          <Link
-                            to={`/edit-transaction/${transaction.id}`}
-                            className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </Link>
-                          <button
-                            onClick={() => transaction.id && handleDelete(transaction.id)}
-                            className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                  <div key={transaction.id} className="p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <div className="flex items-center text-sm mb-1">
+                          <span className="font-medium text-gray-900 truncate max-w-24">{transaction.from}</span>
+                          <ArrowRight className="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" />
+                          <span className="text-gray-900 truncate max-w-24">{transaction.to}</span>
                         </div>
-                      </td>
+                        <div className="text-xs text-gray-500">
+                          {format(transaction.date, 'MMM dd, yyyy')}
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2 ml-2">
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                          transaction.currency === 'PKR' 
+                            ? 'bg-blue-100 text-blue-800' 
+                            : 'bg-green-100 text-green-800'
+                        }`}>
+                          {transaction.amount.toLocaleString()} {transaction.currency}
+                        </span>
+                        {isAdmin && (
+                          <div className="flex space-x-1">
+                            <Link
+                              to={`/edit-transaction/${transaction.id}`}
+                              className="p-1.5 text-blue-600 hover:bg-blue-50 rounded"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Link>
+                            <button
+                              onClick={() => transaction.id && handleDelete(transaction.id)}
+                              className="p-1.5 text-red-600 hover:bg-red-50 rounded"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {transaction.purpose && (
+                      <div className="text-sm text-gray-600 truncate">
+                        {transaction.purpose}
+                      </div>
                     )}
-                  </tr>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
