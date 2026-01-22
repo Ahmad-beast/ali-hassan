@@ -111,6 +111,31 @@ const TransactionsList: React.FC = () => {
     .filter((t) => t.currency === 'KWD')
     .reduce((sum, t) => sum + t.amount, 0);
 
+  // Calculate brother totals
+  const brothers = ['Brother 1', 'Brother 2', 'Brother 3', 'Brother 4'];
+  
+  const calculateBrotherTotals = (brotherName: string) => {
+    const received = {
+      PKR: filteredTransactions
+        .filter((t) => t.to === brotherName && t.currency === 'PKR')
+        .reduce((sum, t) => sum + t.amount, 0),
+      KWD: filteredTransactions
+        .filter((t) => t.to === brotherName && t.currency === 'KWD')
+        .reduce((sum, t) => sum + t.amount, 0),
+    };
+    
+    const sent = {
+      PKR: filteredTransactions
+        .filter((t) => t.from === brotherName && t.currency === 'PKR')
+        .reduce((sum, t) => sum + t.amount, 0),
+      KWD: filteredTransactions
+        .filter((t) => t.from === brotherName && t.currency === 'KWD')
+        .reduce((sum, t) => sum + t.amount, 0),
+    };
+    
+    return { received, sent };
+  };
+
   const uniqueSenders = [...new Set(transactions.map((t) => t.from))];
   const uniqueReceivers = [...new Set(transactions.map((t) => t.to))];
 
@@ -295,6 +320,73 @@ const TransactionsList: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Brother Summary Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        {brothers.map((brother) => {
+          const totals = calculateBrotherTotals(brother);
+          return (
+            <div key={brother} className="bg-white p-4 rounded-lg shadow-sm border">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                  <span className="text-blue-600 font-bold text-sm">
+                    {brother.split(' ')[1]}
+                  </span>
+                </div>
+                {brother}
+              </h3>
+              
+              <div className="space-y-2">
+                {/* Received */}
+                <div className="flex items-center justify-between p-2 bg-green-50 rounded-lg">
+                  <div className="flex items-center">
+                    <ArrowRight className="w-4 h-4 text-green-600 mr-2 rotate-180" />
+                    <span className="text-sm font-medium text-green-700">Received</span>
+                  </div>
+                  <div className="text-right">
+                    {totals.received.PKR > 0 && (
+                      <div className="text-sm font-semibold text-green-800">
+                        {totals.received.PKR.toLocaleString()} PKR
+                      </div>
+                    )}
+                    {totals.received.KWD > 0 && (
+                      <div className="text-sm font-semibold text-green-800">
+                        {totals.received.KWD.toLocaleString()} KWD
+                      </div>
+                    )}
+                    {totals.received.PKR === 0 && totals.received.KWD === 0 && (
+                      <div className="text-sm text-gray-500">0</div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Sent */}
+                <div className="flex items-center justify-between p-2 bg-red-50 rounded-lg">
+                  <div className="flex items-center">
+                    <ArrowRight className="w-4 h-4 text-red-600 mr-2" />
+                    <span className="text-sm font-medium text-red-700">Sent</span>
+                  </div>
+                  <div className="text-right">
+                    {totals.sent.PKR > 0 && (
+                      <div className="text-sm font-semibold text-red-800">
+                        {totals.sent.PKR.toLocaleString()} PKR
+                      </div>
+                    )}
+                    {totals.sent.KWD > 0 && (
+                      <div className="text-sm font-semibold text-red-800">
+                        {totals.sent.KWD.toLocaleString()} KWD
+                      </div>
+                    )}
+                    {totals.sent.PKR === 0 && totals.sent.KWD === 0 && (
+                      <div className="text-sm text-gray-500">0</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
       {/* Transactions */}
       <div className="bg-white rounded-lg border overflow-hidden">
