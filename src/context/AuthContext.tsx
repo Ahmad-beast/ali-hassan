@@ -24,26 +24,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!mounted) return;
+
       setCurrentUser(user);
       
       if (user) {
         try {
           const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists()) {
+          if (userDoc.exists() && mounted) {
             setUserProfile({ id: userDoc.id, ...userDoc.data() } as User);
+          } else if (mounted) {
+            setUserProfile(null);
           }
         } catch (error) {
           console.error('Error fetching user profile:', error);
+          if (mounted) {
+            setUserProfile(null);
+          }
         }
       } else {
-        setUserProfile(null);
+        if (mounted) {
+          setUserProfile(null);
+        }
       }
       
-      setLoading(false);
+      if (mounted) {
+        setLoading(false);
+      }
     });
 
-    return unsubscribe;
+    return () => {
+      mounted = false;
+      unsubscribe();
+    };
   }, []);
 
   return (
