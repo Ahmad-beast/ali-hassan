@@ -150,29 +150,29 @@ const TransactionForm: React.FC = () => {
   }
 
   return (
-    <div className="p-4 bg-gray-50 min-h-screen">
+    <div className="p-3 sm:p-4 bg-gray-50 min-h-screen mobile-container safe-area-bottom">
       <div className="max-w-2xl mx-auto">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
               {isEditing ? t('editTransaction.title') : t('addTransaction.title')}
             </h1>
-            <p className="text-sm text-gray-600">
+            <p className="text-xs sm:text-sm text-gray-600">
               {isEditing ? t('editTransaction.subtitle') : t('addTransaction.subtitle')}
             </p>
           </div>
           <button
             onClick={() => navigate('/transactions')}
-            className="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-white rounded-lg"
+            className="flex items-center px-3 py-3 text-gray-600 hover:text-gray-900 hover:bg-white rounded-lg mobile-touch-target"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
             {t('addTransaction.back')}
           </button>
         </div>
 
-        <div className="bg-white rounded-lg border p-4">
+        <div className="bg-white rounded-lg border p-3 sm:p-4">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {/* From (Sender) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -180,7 +180,7 @@ const TransactionForm: React.FC = () => {
                 </label>
                 <select
                   {...register('from', { required: 'Sender is required' })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
                 >
                   <option value="">{t('addTransaction.selectSender')}</option>
                   {senderOptions.map((sender) => (
@@ -201,7 +201,7 @@ const TransactionForm: React.FC = () => {
                     })}
                     type="text"
                     placeholder={t('addTransaction.customSender')}
-                    className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="mt-2 w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
                   />
                 )}
               </div>
@@ -213,7 +213,7 @@ const TransactionForm: React.FC = () => {
                 </label>
                 <select
                   {...register('to', { required: 'Receiver is required' })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
                 >
                   <option value="">{t('addTransaction.selectReceiver')}</option>
                   <option value="Ali Hussan">Ali Hussan</option>
@@ -241,7 +241,7 @@ const TransactionForm: React.FC = () => {
                     })}
                     type="text"
                     placeholder={t('addTransaction.customReceiver')}
-                    className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="mt-2 w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
                   />
                 )}
               </div>
@@ -254,13 +254,13 @@ const TransactionForm: React.FC = () => {
               </label>
               <textarea
                 {...register('purpose')}
-                rows={3}
+                rows={2}
                 placeholder={t('addTransaction.purposePlaceholder')}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none mobile-touch-target"
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Amount */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -274,7 +274,7 @@ const TransactionForm: React.FC = () => {
                   type="number"
                   step="0.01"
                   placeholder="0.00"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
                 />
                 {errors.amount && (
                   <p className="mt-1 text-sm text-red-600">{errors.amount.message}</p>
@@ -288,7 +288,7 @@ const TransactionForm: React.FC = () => {
                 </label>
                 <select
                   {...register('currency', { required: 'Currency is required' })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
                 >
                   <option value="PKR">PKR</option>
                   <option value="KWD">KWD</option>
@@ -303,7 +303,7 @@ const TransactionForm: React.FC = () => {
                 <input
                   {...register('date', { required: 'Date is required' })}
                   type="date"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
                 />
                 {errors.date && (
                   <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
@@ -312,11 +312,11 @@ const TransactionForm: React.FC = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end pt-4 border-t">
+            <div className="flex justify-end pt-4 border-t mt-6">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                className="flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 disabled:opacity-50 mobile-touch-target"
               >
                 {isEditing ? <Edit className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
                 {loading 
