@@ -25,18 +25,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     <>
       {isOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 safe-area-top"
+          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={onClose}
         />
       )}
       
       <div className={`
-        fixed lg:static inset-y-0 left-0 z-50 w-64 sm:w-72 bg-white border-r border-gray-200 min-h-screen safe-area-top
+        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 min-h-screen
         transform transition-transform duration-300 ease-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        <nav className="mt-2 sm:mt-4 safe-area-top">
-          <div className="px-3 sm:px-4">
+        <nav className="mt-4">
+          <div className="px-4">
             <ul className="space-y-1">
               {navItems.map((item) => {
                 if (item.adminOnly && !isAdmin) return null;
@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                       to={item.to}
                       onClick={onClose}
                       className={({ isActive }) =>
-                        `group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors mobile-touch-target ${
+                        `group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors ${
                           isActive
                             ? 'bg-blue-100 text-blue-700'
                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'

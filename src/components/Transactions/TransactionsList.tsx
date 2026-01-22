@@ -151,42 +151,44 @@ const TransactionsList: React.FC = () => {
   }
 
   return (
-    <div className="p-3 sm:p-4 bg-gray-50 min-h-screen mobile-container safe-area-bottom">
+    <div className="p-4 bg-gray-50 min-h-screen safe-area-bottom">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-        <div className="mb-4 sm:mb-0">
-          <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">{t('transactions.title')}</h1>
-          <p className="text-xs sm:text-sm text-gray-600">{t('transactions.subtitle')}</p>
+        <div className="mb-3 sm:mb-0">
+          <h1 className="text-xl font-bold text-gray-900">{t('transactions.title')}</h1>
+          <p className="text-sm text-gray-600">{t('transactions.subtitle')}</p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col gap-3">
           {isAdmin && (
             <Link
               to="/add-transaction"
-              className="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm mobile-touch-target"
+              className="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium"
             >
               <Plus className="w-4 h-4 mr-2" />
               {t('transactions.newTransaction')}
             </Link>
           )}
-          <div className="flex gap-2">
+          <div className="flex gap-2 justify-between">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center px-3 py-3 border rounded-lg text-sm mobile-touch-target ${
+              className={`flex items-center px-4 py-3 border rounded-lg text-sm font-medium flex-1 justify-center ${
                 showFilters ? 'bg-blue-50 border-blue-300 text-blue-700' : 'border-gray-300 hover:bg-gray-50'
               }`}
             >
               <Filter className="w-4 h-4 mr-1" />
               {t('transactions.filters')}
             </button>
-            <div className="flex gap-1">
+            <div className="flex gap-2">
               <button
                 onClick={handleExportPDF}
-                className="px-3 py-3 text-gray-600 hover:bg-gray-100 rounded-lg text-sm mobile-touch-target"
+                className="px-3 py-3 text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-300"
+                title="Export PDF"
               >
                 <Download className="w-4 h-4" />
               </button>
               <button
                 onClick={handleExportExcel}
-                className="px-3 py-3 text-gray-600 hover:bg-gray-100 rounded-lg text-sm mobile-touch-target"
+                className="px-3 py-3 text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-300"
+                title="Export Excel"
               >
                 <Download className="w-4 h-4" />
               </button>
@@ -196,21 +198,21 @@ const TransactionsList: React.FC = () => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-        <div className="bg-blue-500 p-3 sm:p-4 rounded-lg text-white">
-          <h3 className="text-xs sm:text-sm opacity-90">{t('transactions.totalPkr')}</h3>
-          <p className="text-lg sm:text-2xl font-bold">{pkrTotal.toLocaleString()}</p>
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        <div className="bg-blue-500 p-4 rounded-lg text-white">
+          <h3 className="text-sm opacity-90">{t('transactions.totalPkr')}</h3>
+          <p className="text-xl font-bold">{pkrTotal.toLocaleString()}</p>
         </div>
-        <div className="bg-green-500 p-3 sm:p-4 rounded-lg text-white">
-          <h3 className="text-xs sm:text-sm opacity-90">{t('transactions.totalKwd')}</h3>
-          <p className="text-lg sm:text-2xl font-bold">{kwdTotal.toLocaleString()}</p>
+        <div className="bg-green-500 p-4 rounded-lg text-white">
+          <h3 className="text-sm opacity-90">{t('transactions.totalKwd')}</h3>
+          <p className="text-xl font-bold">{kwdTotal.toLocaleString()}</p>
         </div>
       </div>
 
       {/* Filters */}
       {showFilters && (
-        <div className="bg-white p-3 sm:p-4 rounded-lg mb-4 border">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="bg-white p-4 rounded-lg mb-6 border">
+          <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 {t('transactions.search')}
@@ -222,7 +224,7 @@ const TransactionsList: React.FC = () => {
                   placeholder={t('transactions.search')}
                   value={filters.search}
                   onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                  className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
+                  className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -235,7 +237,7 @@ const TransactionsList: React.FC = () => {
                 type="date"
                 value={filters.dateFrom}
                 onChange={(e) => setFilters({ ...filters, dateFrom: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
+                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -247,7 +249,7 @@ const TransactionsList: React.FC = () => {
                 type="date"
                 value={filters.dateTo}
                 onChange={(e) => setFilters({ ...filters, dateTo: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
+                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -258,7 +260,7 @@ const TransactionsList: React.FC = () => {
               <select
                 value={filters.sender}
                 onChange={(e) => setFilters({ ...filters, sender: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
+                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">{t('transactions.allSenders')}</option>
                 {uniqueSenders.map((sender) => (
@@ -276,7 +278,7 @@ const TransactionsList: React.FC = () => {
               <select
                 value={filters.receiver}
                 onChange={(e) => setFilters({ ...filters, receiver: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
+                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">{t('transactions.allReceivers')}</option>
                 {uniqueReceivers.map((receiver) => (
@@ -294,7 +296,7 @@ const TransactionsList: React.FC = () => {
               <select
                 value={filters.currency}
                 onChange={(e) => setFilters({ ...filters, currency: e.target.value })}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent mobile-touch-target"
+                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">{t('transactions.allCurrencies')}</option>
                 <option value="PKR">PKR</option>
@@ -313,7 +315,7 @@ const TransactionsList: React.FC = () => {
                 receiver: '',
                 currency: '',
               })}
-              className="px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg mobile-touch-target"
+              className="px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg"
             >
               {t('transactions.clearFilters')}
             </button>
@@ -322,12 +324,12 @@ const TransactionsList: React.FC = () => {
       )}
 
       {/* Brother Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 gap-4 mb-6">
         {brothers.map((brother) => {
           const totals = calculateBrotherTotals(brother);
           return (
             <div key={brother} className="bg-white p-4 rounded-lg shadow-sm border">
-              <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+              <h3 className="text-base font-semibold text-gray-800 mb-3 flex items-center">
                 <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
                   <span className="text-blue-600 font-bold text-sm">
                     {brother.split(' ')[0].charAt(0)}{brother.split(' ')[1] ? brother.split(' ')[1].charAt(0) : ''}
@@ -336,9 +338,9 @@ const TransactionsList: React.FC = () => {
                 {brother}
               </h3>
               
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {/* Received */}
-                <div className="flex items-center justify-between p-2 bg-green-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                   <div className="flex items-center">
                     <ArrowRight className="w-4 h-4 text-green-600 mr-2 rotate-180" />
                     <span className="text-sm font-medium text-green-700">Received</span>
@@ -361,7 +363,7 @@ const TransactionsList: React.FC = () => {
                 </div>
                 
                 {/* Sent */}
-                <div className="flex items-center justify-between p-2 bg-red-50 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
                   <div className="flex items-center">
                     <ArrowRight className="w-4 h-4 text-red-600 mr-2" />
                     <span className="text-sm font-medium text-red-700">Sent</span>
@@ -391,13 +393,13 @@ const TransactionsList: React.FC = () => {
       {/* Transactions */}
       <div className="bg-white rounded-lg border overflow-hidden">
         {filteredTransactions.length === 0 ? (
-          <div className="text-center py-8 sm:py-12 px-4">
-            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">{t('transactions.noTransactions')}</h3>
+          <div className="text-center py-12 px-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('transactions.noTransactions')}</h3>
             <p className="text-sm text-gray-500 mb-4">{t('transactions.getStarted')}</p>
             {isAdmin && (
               <Link
                 to="/add-transaction"
-                className="inline-flex items-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 mobile-touch-target"
+                className="inline-flex items-center px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 {t('transactions.createFirst')}
@@ -405,24 +407,24 @@ const TransactionsList: React.FC = () => {
             )}
           </div>
         ) : (
-          <div className="overflow-x-auto mobile-table-container">
+          <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     {t('transactions.date')}
                   </th>
-                  <th className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     {t('transactions.transaction')}
                   </th>
-                  <th className="hidden md:table-cell px-3 sm:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     {t('transactions.purpose')}
                   </th>
-                  <th className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     {t('transactions.amount')}
                   </th>
                   {isAdmin && (
-                    <th className="px-3 sm:px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                       {t('transactions.actions')}
                     </th>
                   )}
@@ -431,23 +433,23 @@ const TransactionsList: React.FC = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredTransactions.map((transaction) => (
                   <tr key={transaction.id} className="hover:bg-gray-50">
-                    <td className="px-3 sm:px-4 py-3 whitespace-nowrap text-xs sm:text-sm text-gray-900">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                       {format(transaction.date, 'MMM dd, yyyy')}
                     </td>
-                    <td className="px-3 sm:px-4 py-3">
-                      <div className="flex items-center text-xs sm:text-sm">
-                        <span className="font-medium text-gray-900 truncate max-w-16 sm:max-w-20">{transaction.from}</span>
-                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 mx-1 sm:mx-2 text-gray-400 flex-shrink-0" />
-                        <span className="text-gray-900 truncate max-w-16 sm:max-w-20">{transaction.to}</span>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center text-sm">
+                        <span className="font-medium text-gray-900 truncate max-w-20">{transaction.from}</span>
+                        <ArrowRight className="w-4 h-4 mx-2 text-gray-400 flex-shrink-0" />
+                        <span className="text-gray-900 truncate max-w-20">{transaction.to}</span>
                       </div>
                     </td>
-                    <td className="hidden md:table-cell px-3 sm:px-4 py-3 text-xs sm:text-sm text-gray-600 max-w-xs">
+                    <td className="hidden md:table-cell px-4 py-4 text-sm text-gray-600 max-w-xs">
                       <div className="truncate">
                         {transaction.purpose || <span className="text-gray-400 italic">{t('transactions.noPurpose')}</span>}
                       </div>
                     </td>
-                    <td className="px-3 sm:px-4 py-3 whitespace-nowrap">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs sm:text-sm font-medium ${
+                    <td className="px-4 py-4 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium ${
                         transaction.currency === 'PKR' 
                           ? 'bg-blue-100 text-blue-800' 
                           : 'bg-green-100 text-green-800'
@@ -456,17 +458,17 @@ const TransactionsList: React.FC = () => {
                       </span>
                     </td>
                     {isAdmin && (
-                      <td className="px-3 sm:px-4 py-3 whitespace-nowrap">
+                      <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center space-x-1">
                           <Link
                             to={`/edit-transaction/${transaction.id}`}
-                            className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded mobile-touch-target"
+                            className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded"
                           >
                             <Edit className="w-4 h-4" />
                           </Link>
                           <button
                             onClick={() => transaction.id && handleDelete(transaction.id)}
-                            className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded mobile-touch-target"
+                            className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
