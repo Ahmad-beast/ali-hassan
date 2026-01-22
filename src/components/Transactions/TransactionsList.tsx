@@ -330,7 +330,7 @@ const TransactionsList: React.FC = () => {
               <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
                 <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
                   <span className="text-blue-600 font-bold text-sm">
-                    {brother.split(' ')[1]}
+                    {brother.split(' ')[0].charAt(0)}{brother.split(' ')[1] ? brother.split(' ')[1].charAt(0) : ''}
                   </span>
                 </div>
                 {brother}
