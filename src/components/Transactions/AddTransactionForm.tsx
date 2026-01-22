@@ -84,6 +84,7 @@ const AddTransactionForm: React.FC = () => {
   };
 
   const senderOptions = ['Brother 1', 'Brother 2', 'Brother 3', 'Brother 4'];
+  const senderOptions = ['Muhammad Raiz', 'Qaisar Shahzad', 'Muhammad Rizwan', 'Muhammad Nawaz'];
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
