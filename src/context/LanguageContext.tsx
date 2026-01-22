@@ -71,6 +71,12 @@ const translations = {
     'addTransaction.customReceiver': 'Enter receiver name',
     'addTransaction.required': 'required',
     
+    // Edit Transaction
+    'editTransaction.title': 'Edit Transaction',
+    'editTransaction.subtitle': 'Modify the transaction details',
+    'editTransaction.update': 'Update Transaction',
+    'editTransaction.updating': 'Updating...',
+    
     // Dashboard
     'dashboard.title': 'Financial Dashboard',
     'dashboard.subtitle': 'Overview of your accounts and currency settings',
@@ -184,6 +190,12 @@ const translations = {
     'addTransaction.customSender': 'بھیجنے والے کا نام درج کریں',
     'addTransaction.customReceiver': 'وصول کنندے کا نام درج کریں',
     'addTransaction.required': 'ضروری',
+    
+    // Edit Transaction
+    'editTransaction.title': 'لین دین میں ترمیم',
+    'editTransaction.subtitle': 'لین دین کی تفصیلات میں تبدیلی کریں',
+    'editTransaction.update': 'لین دین اپ ڈیٹ کریں',
+    'editTransaction.updating': 'اپ ڈیٹ کر رہے ہیں...',
     
     // Dashboard
     'dashboard.title': 'مالی ڈیش بورڈ',

@@ -15,6 +15,24 @@ import {
 import { db } from '../config/firebase';
 import { Transaction, AuditLog, Receiver } from '../types';
 
+export const getTransactionById = async (id: string): Promise<Transaction | null> => {
+  const docRef = doc(db, 'transactions', id);
+  const docSnap = await getDoc(docRef);
+  
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    return {
+      id: docSnap.id,
+      ...data,
+      date: data.date?.toDate ? data.date.toDate() : data.date,
+      createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : data.createdAt,
+      updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt,
+    } as Transaction;
+  }
+  
+  return null;
+};
+
 export const addTransaction = async (transaction: Omit<Transaction, 'id' | 'createdAt'>) => {
   const newTransaction = {
     ...transaction,

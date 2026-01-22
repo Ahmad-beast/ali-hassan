@@ -4,7 +4,7 @@ import { subscribeToTransactions, deleteTransaction } from '../../services/trans
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { format } from 'date-fns';
-import { Trash2, Download, Filter, Search, Plus, ArrowRight, Calendar } from 'lucide-react';
+import { Trash2, Download, Filter, Search, Plus, ArrowRight, Calendar, Edit } from 'lucide-react';
 import { exportToPDF, exportToExcel } from '../../services/exportService';
 import { Link } from 'react-router-dom';
 
@@ -457,12 +457,20 @@ const TransactionsList: React.FC = () => {
                     </td>
                     {isAdmin && (
                       <td className="px-3 sm:px-4 py-3 whitespace-nowrap">
-                        <button
-                          onClick={() => transaction.id && handleDelete(transaction.id)}
-                          className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded mobile-touch-target"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                        <div className="flex items-center space-x-1">
+                          <Link
+                            to={`/edit-transaction/${transaction.id}`}
+                            className="p-2 text-blue-600 hover:text-blue-900 hover:bg-blue-50 rounded mobile-touch-target"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Link>
+                          <button
+                            onClick={() => transaction.id && handleDelete(transaction.id)}
+                            className="p-2 text-red-600 hover:text-red-900 hover:bg-red-50 rounded mobile-touch-target"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </td>
                     )}
                   </tr>

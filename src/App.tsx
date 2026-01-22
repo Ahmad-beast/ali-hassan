@@ -8,7 +8,7 @@ import Sidebar from './components/Layout/Sidebar';
 import LoginForm from './components/Auth/LoginForm';
 import SignupForm from './components/Auth/SignupForm';
 import TransactionsList from './components/Transactions/TransactionsList';
-import AddTransactionForm from './components/Transactions/AddTransactionForm';
+import TransactionForm from './components/Transactions/TransactionForm';
 import MyAccounts from './components/Accounts/MyAccounts';
 import AuditLogs from './components/Audit/AuditLogs';
 import { useAuth } from './context/AuthContext';
@@ -79,7 +79,15 @@ const AppContent: React.FC = () => {
           path="/add-transaction"
           element={
             <ProtectedRoute requireAdmin>
-              <AddTransactionForm />
+              <TransactionForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-transaction/:id"
+          element={
+            <ProtectedRoute requireAdmin>
+              <TransactionForm />
             </ProtectedRoute>
           }
         />
