@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [userProfile, setUserProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
+  useEffect(() => {
     let mounted = true;
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -31,28 +31,49 @@ useEffect(() => {
 
       setCurrentUser(user);
       
-      // ✅ FIX: Loading ko fauran false kar dein taake app stuck na ho!
-      setLoading(false);
-      
       if (user) {
         try {
-          // Ye background mein load hota rahega, app block nahi hogi
-          const userDoc = await getDoc(doc(db, 'users', user.uid));
-          if (userDoc.exists() && mounted) {
+          // 🔥 Timeout set kiya hai taake app infinite loading par na atke (Max 5 seconds)
+          const fetchPromise = getDoc(doc(db, 'users', user.uid));
+          const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Firestore timeout')), 5000)
+          );
+          
+          const userDoc = await Promise.race([fetchPromise, timeoutPromise]) as any;
+
+          if (userDoc && userDoc.exists() && mounted) {
             setUserProfile({ id: userDoc.id, ...userDoc.data() } as User);
           } else if (mounted) {
-            setUserProfile(null);
+            // Agar document nahi mila ya load hone mein masla hua, toh default "viewer" profile set karein
+            setUserProfile({ 
+              id: user.uid, 
+              email: user.email || '', 
+              name: 'User', 
+              role: 'viewer', 
+              createdAt: new Date() 
+            });
           }
         } catch (error) {
           console.error('Error fetching user profile:', error);
           if (mounted) {
-            setUserProfile(null);
+            // Error aane ki surat mein bhi app ko block na hone dein
+            setUserProfile({ 
+              id: user.uid, 
+              email: user.email || '', 
+              name: 'User', 
+              role: 'viewer', 
+              createdAt: new Date() 
+            });
           }
         }
       } else {
         if (mounted) {
           setUserProfile(null);
         }
+      }
+      
+      if (mounted) {
+        setLoading(false); // ✅ Sab kuch set hone ke baad hi loading false hogi
       }
     });
 
@@ -61,7 +82,7 @@ useEffect(() => {
       unsubscribe();
     };
   }, []);
-  
+
   return (
     <AuthContext.Provider value={{ currentUser, userProfile, loading }}>
       {children}
