@@ -23,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [userProfile, setUserProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+useEffect(() => {
     let mounted = true;
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -31,8 +31,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       setCurrentUser(user);
       
+      // ✅ FIX: Loading ko fauran false kar dein taake app stuck na ho!
+      setLoading(false);
+      
       if (user) {
         try {
+          // Ye background mein load hota rahega, app block nahi hogi
           const userDoc = await getDoc(doc(db, 'users', user.uid));
           if (userDoc.exists() && mounted) {
             setUserProfile({ id: userDoc.id, ...userDoc.data() } as User);
@@ -50,10 +54,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUserProfile(null);
         }
       }
-      
-      if (mounted) {
-        setLoading(false);
-      }
     });
 
     return () => {
@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       unsubscribe();
     };
   }, []);
-
+  
   return (
     <AuthContext.Provider value={{ currentUser, userProfile, loading }}>
       {children}
